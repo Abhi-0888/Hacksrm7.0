@@ -1,4 +1,4 @@
-# VeriBallot
+# EventHorizon
 
 A decentralized voting system designed to empower communities to make transparent and verifiable decisions.
 
