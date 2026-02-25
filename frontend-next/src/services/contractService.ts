@@ -11,6 +11,7 @@ export interface OnChainProposal {
   voteEndTime: number;
   finalized: boolean;
   status: 'Active' | 'Approved' | 'Rejected';
+  posterUrl?: string; // stored in localStorage, not on-chain
 }
 
 // ── Config ──
