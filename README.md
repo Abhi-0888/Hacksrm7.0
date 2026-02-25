@@ -1,94 +1,69 @@
-# VibeCraft DAO (CampusChoice)
+# VeriBallot
 
-![VibeCraft DAO Banner](/frontend/public/vite.svg)
+A decentralized voting system designed to empower communities to make transparent and verifiable decisions.
 
-**Live Demo:** [https://campuschoice.vercel.app](https://campuschoice.vercel.app?_vercel_share=pMKch91FHQoeamksiA2ZuL9cWrkwXpIM)
+## Introduction
+VeriBallot is a Web3 platform built to handle secure, transparent, and democratic voting for organizations, schools, or any community group. Leveraging blockchain technology, VeriBallot guarantees that every vote is tamper-proof, immutable, and accurately counted, ensuring the highest level of integrity in the voting process.
 
-## 🚀 Overview
+## Features
+- **Immutable Voting:** Built with smart contracts to ensure votes cannot be altered once cast.
+- **Transparent Results:** Everyone can verify the integrity of the election on the blockchain.
+- **AI-Powered Proposal Insights:** Smart analysis checks the quality of proposals to ensure complete information before voting begins.
+- **Modern User Interface:** A sleek and responsive React frontend configured with Vite.
 
-VibeCraft DAO (CampusChoice) is a decentralized platform that empowers students to democratically decide on campus events through blockchain technology. By leveraging quadratic voting, we ensure fair representation and prevent plutocracy, giving every student a meaningful voice in how university funds are allocated.
+## Technology Stack
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS, Shadcn UI
+- **Backend/AI:** Node.js, Express (AI Service)
+- **Blockchain:** Ethers.js, Solidity
+- **Smart Contract Environment:** Hardhat
 
-## ✨ Key Features
+## Quick Start
 
--   **Quadratic Voting:** A revolutionary voting mechanism where voting power is the square root of tokens committed, ensuring fairer influence.
--   **Decentralized Governance:** All proposals and votes are recorded on-chain for transparency and immutability.
--   **Proposal Creation:** Students can submit detailed event proposals including budget, timeline, and description.
--   **AI-Powered Insights:** (Optional) Smart analysis features to help users craft better proposals.
--   **Real-time Dashboard:** Interactive dashboard to track active proposals, voting status, and treasury funds.
--   **Wallet Connection:** Seamless integration with MetaMask (and mock wallet support for testing).
+### Prerequisites
+Make sure you have Node.js and npm installed.
 
-## 📸 Screenshots
+### Installation
 
-### Landing Page
-<img width="100%" alt="Landing Page" src="https://github.com/user-attachments/assets/94923d4e-3da0-4167-bbde-f7555189c6b7" />
+1. Copy the repository and navigate to the project directory:
+   ```bash
+   cd VeriBallot
+   ```
 
-### Dashboard
-<img width="100%" alt="Dashboard" src="https://github.com/user-attachments/assets/e8fb018d-0c8c-46cf-b4ba-67924777835c" />
+2. Install dependencies for the frontend and AI service:
+   ```bash
+   cd frontend
+   npm install
+   cd ../ai-service
+   npm install
+   cd ..
+   ```
 
-### Proposal Creation
-<img width="50%" alt="Proposal Creation" src="https://github.com/user-attachments/assets/c43db505-2419-4ce0-8d75-39e30055b900" />
+### Running the App Locally
 
-## 🛠️ Tech Stack
+1. **Start the Frontend Directory:**
+   In a terminal, navigate to the `frontend` directory and run:
+   ```bash
+   npm run dev
+   ```
+   The UI will typically be available at `http://localhost:5173`.
 
--   **Frontend:** React, TypeScript, Vite, Tailwind CSS
--   **Backend:** Node.js, Express
--   **Database:** PostgreSQL (with in-memory fallback for demo)
--   **Blockchain Interaction:** Ethers.js
--   **Icons:** Lucide React
+2. **Start the AI Service:**
+   In a new terminal window, navigate to the `ai-service` directory and run:
+   ```bash
+   npm start
+   ```
+   This handles intelligent analysis of proposals submitted through the platform.
 
-## 📦 Installation & Setup
+## Deployment to Vercel
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/paradox-prakhar/vibecraft.git
-    cd vibecraft
-    ```
+### Root Directory Deployment Fix
+If you deployed to Vercel by selecting the **root folder** of the repository (where this README is), Vercel will attempt to look at `d:\SrmAP\Fullstack\VeriBallot\vercel.json`. The app itself is in `frontend/`. 
+To fix 404 errors, do the following:
 
-2.  **Install Dependencies:**
+1. Import your GitHub repository to Vercel.
+2. In the "Configure Project" step, explicitly set the **Root Directory** to `frontend`.
+3. The Build Command should be `npm run build` and the Output Directory should be `dist`.
+4. Deploy!
 
-    *Frontend:*
-    ```bash
-    cd frontend
-    npm install
-    ```
-
-    *Backend:*
-    ```bash
-    cd backend
-    npm install
-    ```
-
-3.  **Run Locally:**
-
-    *Start Backend (Port 3001):*
-    ```bash
-    cd backend
-    npm start
-    ```
-
-    *Start Frontend (Port 5173):*
-    ```bash
-    cd frontend
-    npm run dev
-    ```
-
-## 🌐 Deployment
-
-The project is deployed on Vercel.
-
--   **Frontend:** [CampusChoice Live](https://campuschoice.vercel.app?_vercel_share=pMKch91FHQoeamksiA2ZuL9cWrkwXpIM)
-
-## 📖 How It Works
-
-1.  **Connect Wallet:** Users connect their Ethereum wallet.
-2.  **Browse/Propose:** View active event proposals or submit a new one.
-3.  **Vote:** Use DAO tokens to vote. Quadratic voting applies cost = (votes)^2 to balance power.
-4.  **Execute:** Winning proposals receive automated funding approval.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request for any improvements.
-
----
-
-Built for the Hackathon 2026.
+## Contributing
+Contributions are welcome! Please submit a pull request or open an issue if you encounter any problems or have suggestions for improvements.
