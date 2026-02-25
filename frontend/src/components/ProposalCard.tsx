@@ -4,7 +4,15 @@ import { ThumbsUp, ThumbsDown, Clock, User as UserIcon, CheckCircle, XCircle, Lo
 import { useWeb3 } from '@/providers/Web3Provider';
 import { useApp } from '@/context/AppContext';
 import type { OnChainProposal } from '@/services/contractService';
-import Poster from '@/components/Poster';
+
+/** Deterministic gradient placeholder — same algorithm as Poster.tsx */
+function gradientFor(seed: string): string {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+  const h1 = Math.abs(hash) % 360;
+  const h2 = (h1 + 120) % 360;
+  return `linear-gradient(135deg, hsl(${h1},70%,35%), hsl(${h2},70%,25%))`;
+}
 
 function formatAddress(addr: string): string {
   return `${addr.slice(0, 6)}…${addr.slice(-4)}`;
@@ -26,6 +34,74 @@ function formatTimeLeft(endTimeUnix: number): { text: string; expired: boolean }
 interface Props {
   proposal: OnChainProposal;
   index?: number;
+}
+
+/** Poster image with skeleton loading, hover zoom, and gradient fallback */
+function PosterImage({ posterUrl, title }: { posterUrl?: string; title: string }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const showImg = !!posterUrl && !hasError;
+
+  return (
+    <div
+      className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 relative"
+      style={{
+        border: '1px solid rgba(168,85,247,0.22)',
+        boxShadow: '0 0 16px rgba(168,85,247,0.12)',
+        // Reserve space before image loads to prevent layout shift
+        minWidth: '7rem',
+        minHeight: '7rem',
+      }}
+    >
+      {/* Shimmer skeleton — visible until image loads or when no poster */}
+      {(!isLoaded || !showImg) && (
+        <div
+          className="absolute inset-0 rounded-2xl"
+          style={{
+            background: showImg
+              ? 'rgba(22,22,38,0.9)'  // dark wait while image fetches
+              : gradientFor(title),    // gradient fallback
+          }}
+        >
+          {/* "EVENT" label only shown on gradient fallback */}
+          {!showImg && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+              <span className="text-[0.55rem] uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.3)' }}>EVENT</span>
+            </div>
+          )}
+          {/* Shimmer animation on the dark wait state */}
+          {showImg && !isLoaded && (
+            <div className="absolute inset-0 animate-pulse" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(168,85,247,0.08) 50%, transparent 100%)' }} />
+          )}
+        </div>
+      )}
+
+      {/* Real image */}
+      {showImg && (
+        <div
+          className="absolute inset-0 transition-transform duration-200 ease-in-out"
+          style={{ transform: 'scale(1)' }}
+          onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.03)'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)'; }}
+        >
+          <img
+            src={posterUrl}
+            alt={`Poster for ${title}`}
+            loading="lazy"
+            onLoad={() => setIsLoaded(true)}
+            onError={() => setHasError(true)}
+            className="w-full h-full"
+            style={{ objectFit: 'cover', opacity: isLoaded ? 1 : 0, transition: 'opacity 0.3s ease' }}
+          />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function ProposalCard({ proposal, index = 0 }: Props) {
@@ -93,13 +169,10 @@ export default function ProposalCard({ proposal, index = 0 }: Props) {
       >
         {/* ── LEFT COLUMN: Poster ── */}
         <div
-          className="flex items-center justify-center p-4 sm:p-5 shrink-0 sm:w-40"
-          style={{ borderBottom: '1px solid rgba(168,85,247,0.08)', borderRight: 'none' }}
+          className="flex items-center justify-center p-3 sm:p-4 shrink-0 sm:w-40"
+          style={{ borderRight: 'none' }}
         >
-          {/* Mobile: full width; desktop: fixed square column */}
-          <div className="w-full sm:w-28 sm:h-28 aspect-square">
-            <Poster alt={proposal.title} size="sm" />
-          </div>
+          <PosterImage posterUrl={proposal.posterUrl} title={proposal.title} />
         </div>
 
         {/* ── RIGHT COLUMN: Details ── */}

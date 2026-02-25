@@ -8,6 +8,7 @@ import WalletConnectModal from "@/components/WalletConnectModal";
 import PosterUpload from "@/components/PosterUpload";
 import { useWeb3 } from "@/providers/Web3Provider";
 import { useApp } from "@/context/AppContext";
+import { compressImage } from "@/services/posterStore";
 
 export default function CreateProposal() {
   const { account, setWalletModalOpen } = useWeb3();
@@ -165,12 +166,22 @@ Return ONLY this JSON structure:
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title || !formData.description) return;
-    // Build IPFS-style CID — optionally prepend poster URL if uploaded
-    const posterRef = posterFile ? `[poster:${posterFile.name}]` : '';
+
+    // Layer 5: compress poster using canvas API (no new packages)
+    let posterDataUrl: string | undefined;
+    if (posterFile) {
+      try {
+        posterDataUrl = await compressImage(posterFile);
+      } catch (err) {
+        console.warn('Poster compression failed, submitting without poster:', err);
+      }
+    }
+
+    const posterRef = posterDataUrl ? `[poster:${posterFile!.name}]` : '';
     const ipfsCID = (posterRef + formData.description).slice(0, 46) || 'QmPlaceholder';
-    const success = await submitProposal(formData.title, ipfsCID, Number(formData.duration));
+    const success = await submitProposal(formData.title, ipfsCID, Number(formData.duration), posterDataUrl);
     if (success) {
-      handlePosterRemove(); // cleanup object URL
+      handlePosterRemove();
       navigate('/dashboard');
     }
   };
