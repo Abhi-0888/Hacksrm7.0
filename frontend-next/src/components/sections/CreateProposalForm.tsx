@@ -37,7 +37,7 @@ export const CreateProposalForm = () => {
         if (account && !formData.recipient) {
             setFormData(prev => ({ ...prev, recipient: account }));
         }
-    }, [account]);
+    }, [account, formData.recipient]);
 
     const handlePosterChange = (file: File, previewUrl: string) => {
         setPosterFile(file);
@@ -191,7 +191,7 @@ export const CreateProposalForm = () => {
                                 />
                                 <div className="space-y-2 mt-2">
                                     <p className="font-ui text-sm text-foreground uppercase tracking-widest border-l-2 border-primary pl-3">Visual Identity</p>
-                                    <p className="font-mono text-[0.6rem] text-muted max-w-xs leading-relaxed">Upload a defining image for your event. This asset will be permanently linked to your proposal's metadata payload.</p>
+                                    <p className="font-mono text-[0.6rem] text-muted max-w-xs leading-relaxed">Upload a defining image for your event. This asset will be permanently linked to your proposal&apos;s metadata payload.</p>
                                 </div>
                             </div>
                         </div>
@@ -205,7 +205,7 @@ export const CreateProposalForm = () => {
                                     required
                                     value={formData.title}
                                     onChange={(e) => handleField("title", e.target.value)}
-                                    placeholder="e.g. Neo-Tokyo Hackathon '26"
+                                    placeholder="e.g. Neo-Tokyo Hackathon &apos;26"
                                     className="w-full bg-bg2 border border-border p-4 font-mono text-[0.75rem] text-foreground outline-none focus:border-primary/40 transition-colors"
                                     disabled={txPending}
                                 />

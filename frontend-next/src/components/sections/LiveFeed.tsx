@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const INITIAL_FEED = [
     { event: "Proposal #186 Created", voter: "0x7a...d24", choice: "QUAI-CYP-1", time: "2m ago" },

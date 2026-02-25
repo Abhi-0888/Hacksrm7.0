@@ -21,7 +21,6 @@ export default function AdminDeployPage() {
     const [logs, setLogs] = useState<LogEntry[]>([]);
     const [contractAddr, setContractAddr] = useState<string>('');
     const [deploying, setDeploying] = useState(false);
-    const [txHash, setTxHash] = useState<string>('');
     const logEndRef = useRef<HTMLDivElement>(null);
 
     const addLog = (message: string, type: LogEntry['type'] = 'info') => {
@@ -33,8 +32,8 @@ export default function AdminDeployPage() {
         addLog('STARTING PRE-FLIGHT BLOCKCHAIN AUDIT...', 'warning');
         try {
             const quaiProvider = new quais.BrowserProvider(provider);
-            const network = await quaiProvider.getNetwork();
-            const blockHeight = await quaiProvider.getBlockNumber();
+            const network = await (quaiProvider as any).getNetwork();
+            const blockHeight = await (quaiProvider as any).getBlockNumber();
 
             addLog(`AUDIT: CONNECTION ACCELERATED TO QUAI_NETWORK`, 'success');
             addLog(`AUDIT: NETWORK_ID VERIFIED: ${network.chainId} (ORCHARD_TESTNET)`, 'success');
@@ -90,7 +89,6 @@ export default function AdminDeployPage() {
             const contract = await factory.deploy();
 
             const hash = contract.deploymentTransaction()?.hash || '';
-            setTxHash(hash);
             addLog(`TRANSMISSION SUCCESS. HASH: ${hash.slice(0, 24)}...`, 'success');
             addLog('Syncing with ledger... (Waiting for confirmation)', 'info');
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useApp } from "@/context/AppContext";
@@ -19,8 +19,7 @@ interface ProposalCardProps {
 }
 
 export const ProposalCard = ({ proposal }: ProposalCardProps) => {
-    const { voteOnProposal, txPending, hasUserVoted } = useApp();
-    const [isVotedLocally, setIsVotedLocally] = useState<boolean | null>(null);
+    const { voteOnProposal, txPending } = useApp();
 
     const statusColors = {
         live: "text-primary border-primary/30 bg-primary/5 animate-pulse",
@@ -39,10 +38,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
     };
 
     const handleVote = async (support: boolean) => {
-        const success = await voteOnProposal(parseInt(proposal.id), support);
-        if (success) {
-            setIsVotedLocally(true);
-        }
+        await voteOnProposal(parseInt(proposal.id), support);
     };
 
     return (
