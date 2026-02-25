@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EventHorizon
 
-## Getting Started
+A decentralized voting system designed to empower communities to make transparent and verifiable decisions.
 
-First, run the development server:
+## Introduction
+EventHorizon is a Web3 platform built to handle secure, transparent, and democratic voting for organizations, schools, or any community group. Leveraging blockchain technology, VeriBallot guarantees that every vote is tamper-proof, immutable, and accurately counted, ensuring the highest level of integrity in the voting process.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
+- **Immutable Voting:** Built with smart contracts to ensure votes cannot be altered once cast.
+- **Transparent Results:** Everyone can verify the integrity of the election on the blockchain.
+- **AI-Powered Proposal Insights:** Smart analysis checks the quality of proposals to ensure complete information before voting begins.
+- **Modern User Interface:** A sleek and responsive React frontend configured with Vite.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technology Stack
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS, Shadcn UI
+- **Backend/AI:** Node.js, Express (AI Service)
+- **Blockchain:** Ethers.js, Solidity
+- **Smart Contract Environment:** Hardhat
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Quick Start
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
+Make sure you have Node.js and npm installed.
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. Copy the repository and navigate to the project directory:
+   ```bash
+   cd VeriBallot
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Install dependencies for the frontend and AI service:
+   ```bash
+   cd frontend
+   npm install
+   cd ../ai-service
+   npm install
+   cd ..
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Running the App Locally
 
-## Deploy on Vercel
+1. **Start the Frontend Directory:**
+   In a terminal, navigate to the `frontend` directory and run:
+   ```bash
+   npm run dev
+   ```
+   The UI will typically be available at `http://localhost:5173`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Start the AI Service:**
+   In a new terminal window, navigate to the `ai-service` directory and run:
+   ```bash
+   npm start
+   ```
+   This handles intelligent analysis of proposals submitted through the platform.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment to Vercel
+
+### Root Directory Deployment Fix
+If you deployed to Vercel by selecting the **root folder** of the repository (where this README is), Vercel will attempt to look at `d:\SrmAP\Fullstack\VeriBallot\vercel.json`. The app itself is in `frontend/`. 
+To fix 404 errors, do the following:
+
+1. Import your GitHub repository to Vercel.
+2. In the "Configure Project" step, explicitly set the **Root Directory** to `frontend`.
+3. The Build Command should be `npm run build` and the Output Directory should be `dist`.
+4. Deploy!
+
+## Contributing
+Contributions are welcome! Please submit a pull request or open an issue if you encounter any problems or have suggestions for improvements.
