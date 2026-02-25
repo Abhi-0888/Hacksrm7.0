@@ -70,11 +70,16 @@ export async function getProposal(id: number): Promise<OnChainProposal> {
   };
 }
 
+const PAGE_SIZE = 12; // Fetch latest 12 proposals — fast enough for display, low RPC load
+
 export async function getAllProposals(): Promise<OnChainProposal[]> {
   const count = await getProposalCount();
   if (count === 0) return [];
+
+  // Fetch only the latest PAGE_SIZE proposals (most recent first)
+  const startId = Math.max(1, count - PAGE_SIZE + 1);
   const promises: Promise<OnChainProposal>[] = [];
-  for (let i = 1; i <= count; i++) {
+  for (let i = count; i >= startId; i--) {
     promises.push(getProposal(i));
   }
   return Promise.all(promises);

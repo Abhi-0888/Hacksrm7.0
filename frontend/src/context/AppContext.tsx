@@ -60,6 +60,9 @@ interface AppContextType {
   switchNetwork: (networkKey: string) => Promise<void>;
 }
 
+// ── Helper: sleep ──
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 const AppContext = createContext<AppContextType | null>(null);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
@@ -214,6 +217,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     try {
       setTxPending(true);
 
+      // ── OPTIMISTIC UI: immediately add a pending card to the list ──
+      const optimisticId = Date.now(); // temporary fake id
+      const optimisticProposal: OnChainProposal = {
+        id: optimisticId,
+        proposer: await signer.getAddress(),
+        title,
+        ipfsCID,
+        yesVotes: 0,
+        noVotes: 0,
+        voteEndTime: Math.floor(Date.now() / 1000) + durationSeconds,
+        finalized: false,
+        status: 'Active',
+      };
+      setProposals(prev => [optimisticProposal, ...prev]);
+
       const addr = await signer.getAddress();
       const network = await signer.provider?.getNetwork();
       console.log("SubmitProposal Diagnostics:", {
@@ -227,12 +245,24 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const receipt = await contractService.createProposal(signer, title, ipfsCID, durationSeconds);
       if (receipt) {
         console.log("Proposal Created! Tx Hash:", receipt.hash);
-        alert(`Proposal Created! Tx Hash: ${receipt.hash}`);
       }
-      await fetchProposals();
+
+      // ── SMART POLLING: retry every 2s until count increases (max 5 retries / 10s) ──
+      const prevCount = proposals.length;
+      let synced = false;
+      for (let attempt = 0; attempt < 5; attempt++) {
+        await sleep(1000);
+        await fetchProposals();
+        // Stop as soon as we see a new real proposal (id won't be a Date.now() timestamp)
+        const newCount = proposals.length;
+        if (newCount > prevCount) { synced = true; break; }
+      }
+      if (!synced) await fetchProposals(); // final safety fetch
       return true;
     } catch (err: any) {
       console.error('Create proposal failed:', err);
+      // Remove the optimistic card if the tx failed
+      setProposals(prev => prev.filter(p => p.id !== Date.now()));
       return false;
     } finally {
       setTxPending(false);

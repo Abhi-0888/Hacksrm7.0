@@ -29,7 +29,7 @@ const Footer = () => {
 
         {/* ── CTA banner ── */}
         <motion.div
-          className="glass-bright rounded-2xl relative overflow-hidden mb-18"
+          className="glass-bright rounded-2xl relative overflow-hidden mb-18 mt-12 lg:mt-0"
           style={{ marginBottom: "4.5rem" }}
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}

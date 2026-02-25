@@ -15,10 +15,13 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNetworkDropdownOpen, setIsNetworkDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { account, walletType, isConnecting, disconnect, setWalletModalOpen } = useWeb3();
-  const { network, setNetwork } = useApp();
+  const { account, walletType, isConnecting, disconnect, setWalletModalOpen, error, isCorrectNetwork } = useWeb3();
+  const { network, setNetwork, contractError } = useApp();
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const displayError = error || contractError;
+  const isBannerVisible = !(!displayError && isCorrectNetwork);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -46,7 +49,13 @@ const Header = () => {
   const formatAddr = (addr: string) => `${addr.slice(0, 6)}…${addr.slice(-4)}`;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50" style={{ transition: "all 0.4s cubic-bezier(.4,0,.2,1)" }}>
+    <header 
+      className="fixed left-0 right-0 z-50 transition-all duration-300" 
+      style={{ 
+        top: isBannerVisible ? "56px" : "0", 
+        transitionTimingFunction: "cubic-bezier(.4,0,.2,1)" 
+      }}
+    >
       <div
         className="mx-4 mt-3 md:mx-6 rounded-2xl overflow-visible"
         style={{
