@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useWeb3 } from '@/providers/Web3Provider';
 import * as contractService from '@/services/contractService';
-import { EventDAOABI, getEventDAOAddress } from '@/services/contractService';
+import { EventDAOABI } from '@/services/contractService';
+import { getEventDAOAddress as resolveContractAddress } from '@/web3';
 import type { OnChainProposal } from '@/services/contractService';
 import { ethers } from 'ethers';
 
@@ -86,9 +87,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const networkKey = chainToKey[lowerChain];
       if (networkKey) {
         setNetwork(networkKey);
-        const addr = getEventDAOAddress(networkKey);
-        if (addr) {
+        const addr = resolveContractAddress(networkKey);
+        if (addr && addr !== '0x0000000000000000000000000000000000000000') {
           contractService.setEventDAOAddress(addr);
+          setContractError(null);
+        } else {
+          setContractError(`No contract address found for network: ${networkKey}`);
         }
       }
     }
@@ -124,6 +128,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // ── Fetch proposals ──
   const fetchProposals = useCallback(async () => {
     try {
+      // Guard: only fetch if contract address is set
+      if (!contractService.getEventDAOAddress()) {
+        console.warn('Skipping proposal fetch: contract address not set.');
+        return;
+      }
+
       setContractError(null);
       setIsLoading(true);
       const data = await contractService.getAllProposals();
@@ -151,9 +161,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       try {
         const RPC_URL = import.meta.env.VITE_RPC_URL || 'https://orchard.rpc.quai.network/cyprus1';
         const provider = new ethers.JsonRpcProvider(RPC_URL);
-        const contractAddr = getEventDAOAddress(network as any);
+        const contractAddr = resolveContractAddress(network as any);
 
-        if (!contractAddr) throw new Error("Contract address not found for this network");
+        if (!contractAddr || contractAddr === '0x0000000000000000000000000000000000000000') {
+          throw new Error("Contract address not found for this network");
+        }
 
         contract = new ethers.Contract(contractAddr, EventDAOABI, provider);
 
