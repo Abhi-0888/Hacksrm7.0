@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Environment variables (private keys, API keys)
+.env
+
+# Build output
+dist/
+build/
+
+# Hardhat artifacts & cache
+artifacts/
+cache/
+coverage/
+typechain-types/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Gemini AI
+.gemini/
+
+# Misc
+*.log
