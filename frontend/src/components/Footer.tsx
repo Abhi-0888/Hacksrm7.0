@@ -133,7 +133,7 @@ const Footer = () => {
         {/* ── bottom bar ── */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-6" style={{ borderTop: "1px solid rgba(168,85,247,0.1)" }}>
           <p className="text-[0.75rem]" style={{ color: "#4a4a5e" }}>
-            © 2026 CampusChoice. All rights reserved.
+            © 2026 Event Horizon. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
             {socials.map((s) => (

@@ -77,7 +77,7 @@ export default function WalletConnectModal() {
                 Connect Wallet
               </h2>
               <p className="text-sm" style={{ color: '#6b7280' }}>
-                Choose your preferred wallet to access CampusChoice
+                Choose your preferred wallet to access Event Horizon
               </p>
             </div>
 
