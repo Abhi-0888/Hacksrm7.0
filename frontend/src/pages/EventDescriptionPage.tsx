@@ -5,7 +5,7 @@ import { ArrowLeft, Clock, User as UserIcon, ThumbsUp, ThumbsDown, CheckCircle, 
 import { useApp } from '@/context/AppContext';
 import { useWeb3 } from '@/providers/Web3Provider';
 import type { OnChainProposal } from '@/services/contractService';
-import Poster from '@/components/Poster';
+import { getPoster } from '@/services/posterStore';
 
 function formatAddress(addr: string) {
   return `${addr.slice(0, 6)}…${addr.slice(-4)}`;
@@ -23,6 +23,71 @@ function formatTimeLeft(endTimeUnix: number): { text: string; expired: boolean }
     expired: false,
   };
 }
+
+function gradientFor(seed: string): string {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+  const h1 = Math.abs(hash) % 360;
+  const h2 = (h1 + 120) % 360;
+  return `linear-gradient(135deg, hsl(${h1},70%,35%), hsl(${h2},70%,25%))`;
+}
+
+function EventPosterImage({ posterUrl, title }: { posterUrl?: string; title: string }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const showImg = !!posterUrl && !hasError;
+
+  return (
+    <div
+      style={{
+        width: 280, height: 280,
+        borderRadius: 20,
+        overflow: 'hidden',
+        position: 'relative',
+        border: '1px solid rgba(168,85,247,0.25)',
+        boxShadow: '0 0 40px rgba(168,85,247,0.15)',
+        flexShrink: 0,
+      }}
+    >
+      {/* Gradient fallback / skeleton */}
+      {(!isLoaded || !showImg) && (
+        <div style={{ position: 'absolute', inset: 0, background: showImg ? 'rgba(14,14,24,0.9)' : gradientFor(title) }}>
+          {!showImg && (
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+              <span style={{ fontSize: '0.6rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>EVENT</span>
+            </div>
+          )}
+          {showImg && !isLoaded && (
+            <div className="animate-pulse" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.1), transparent)' }} />
+          )}
+        </div>
+      )}
+      {/* Image with hover zoom */}
+      {showImg && (
+        <div
+          style={{ position: 'absolute', inset: 0, transition: 'transform 0.2s ease', transform: 'scale(1)' }}
+          onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.02)'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)'; }}
+        >
+          <img
+            src={posterUrl}
+            alt={`Poster for ${title}`}
+            loading="lazy"
+            onLoad={() => setIsLoaded(true)}
+            onError={() => setHasError(true)}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: isLoaded ? 1 : 0, transition: 'opacity 0.35s ease' }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
 
 export default function EventDescriptionPage() {
   const { id } = useParams<{ id: string }>();
@@ -145,11 +210,7 @@ export default function EventDescriptionPage() {
               className="p-8 flex items-center justify-center md:w-[360px] shrink-0"
               style={{ borderRight: '1px solid rgba(168,85,247,0.1)', background: 'rgba(8,8,16,0.4)' }}
             >
-              <Poster
-                src={undefined}
-                alt={proposal.title}
-                size="lg"
-              />
+              <EventPosterImage posterUrl={proposal.posterUrl ?? getPoster(proposal.title) ?? undefined} title={proposal.title} />
             </div>
 
             {/* RIGHT: Details */}

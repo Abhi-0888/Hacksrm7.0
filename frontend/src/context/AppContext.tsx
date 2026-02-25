@@ -5,6 +5,7 @@ import { EventDAOABI } from '@/services/contractService';
 import { getEventDAOAddress as resolveContractAddress } from '@/web3';
 import type { OnChainProposal } from '@/services/contractService';
 import { ethers } from 'ethers';
+import * as posterStore from '@/services/posterStore';
 
 // ── Quai Network Configuration (from old frontend) ──
 export const NETWORKS: Record<string, {
@@ -49,7 +50,7 @@ interface AppContextType {
   proposals: OnChainProposal[];
   isLoading: boolean;
   fetchProposals: () => Promise<void>;
-  submitProposal: (title: string, ipfsCID: string, durationSeconds: number) => Promise<boolean>;
+  submitProposal: (title: string, ipfsCID: string, durationSeconds: number, posterDataUrl?: string) => Promise<boolean>;
   voteOnProposal: (proposalId: number, support: boolean) => Promise<boolean>;
   finalize: (proposalId: number) => Promise<boolean>;
   hasUserVoted: (proposalId: number) => Promise<boolean>;
@@ -140,7 +141,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setContractError(null);
       setIsLoading(true);
       const data = await contractService.getAllProposals();
-      setProposals(data.sort((a, b) => b.id - a.id));
+      // ── Enrich with posterUrl from localStorage (Layer 3: "API" enrichment) ──
+      const enriched = data.map(p => ({
+        ...p,
+        posterUrl: posterStore.getPoster(p.title) ?? undefined,
+      }));
+      setProposals(enriched.sort((a, b) => b.id - a.id));
     } catch (err: any) {
       console.error('Failed to fetch proposals:', err);
       setContractError(err.message || 'Failed to connect to smart contract');
@@ -210,15 +216,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const submitProposal = useCallback(async (
     title: string,
     ipfsCID: string,
-    durationSeconds: number
+    durationSeconds: number,
+    posterDataUrl?: string  // base64 from canvas compression
   ): Promise<boolean> => {
     const signer = await getSigner();
     if (!signer) return false;
     try {
       setTxPending(true);
 
-      // ── OPTIMISTIC UI: immediately add a pending card to the list ──
-      const optimisticId = Date.now(); // temporary fake id
+      // ── Save poster to localStorage BEFORE submitting (so re-fetches pick it up) ──
+      if (posterDataUrl) {
+        posterStore.savePoster(title, posterDataUrl);
+      }
+
+      // ── OPTIMISTIC UI: immediately add a pending card with the poster ──
+      const optimisticId = Date.now();
       const optimisticProposal: OnChainProposal = {
         id: optimisticId,
         proposer: await signer.getAddress(),
@@ -229,6 +241,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         voteEndTime: Math.floor(Date.now() / 1000) + durationSeconds,
         finalized: false,
         status: 'Active',
+        posterUrl: posterDataUrl,  // shown instantly on the card
       };
       setProposals(prev => [optimisticProposal, ...prev]);
 
