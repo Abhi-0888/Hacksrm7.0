@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import CreateProposal from "./pages/CreateProposal";
 import Deploy from "./pages/Deploy";
 import NotFound from "./pages/NotFound";
+import EventDescriptionPage from "./pages/EventDescriptionPage";
 import { NetworkBanner } from "./components/NetworkBanner";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/create" element={<CreateProposal />} />
               <Route path="/deploy" element={<Deploy />} />
+              <Route path="/events/:id" element={<EventDescriptionPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

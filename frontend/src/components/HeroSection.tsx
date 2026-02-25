@@ -22,7 +22,7 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden" style={{ background: "#0a0a0f" }}>
+    <section className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden pt-20 pb-28" style={{ background: "#0a0a0f" }}>
 
       {/* ── ambient blobs ── */}
       <div className="blob" style={{ width: 520, height: 520, background: "radial-gradient(circle, #7c3aed 0%, transparent 70%)", top: "-15%", left: "-12%", opacity: 0.28 }} />

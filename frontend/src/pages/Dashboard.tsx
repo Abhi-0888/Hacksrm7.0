@@ -33,7 +33,7 @@ export default function Dashboard() {
       <div className="min-h-screen" style={{ background: '#0a0a0f' }}>
         <Header />
         <WalletConnectModal />
-        <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
+        <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 pt-24 pb-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -69,7 +69,7 @@ export default function Dashboard() {
         <div className="blob" style={{ width: 500, height: 500, background: 'radial-gradient(circle, #7c3aed 0%, transparent 70%)', top: '-10%', left: '-10%', opacity: 0.15 }} />
         <div className="blob" style={{ width: 400, height: 400, background: 'radial-gradient(circle, #ec4899 0%, transparent 70%)', bottom: '10%', right: '-10%', opacity: 0.1 }} />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-5 pt-28 pb-12 space-y-10">
+        <div className="relative z-10 max-w-7xl mx-auto px-5 pt-36 pb-12 space-y-10">
           {/* page header */}
           <motion.div
             className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6"
