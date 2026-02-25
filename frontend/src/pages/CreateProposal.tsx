@@ -134,7 +134,7 @@ Return ONLY this JSON structure:
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
           'HTTP-Referer': window.location.origin,
-          'X-Title': 'CampusChoice AI Proposal Analyzer',
+          'X-Title': 'Event Horizon AI Proposal Analyzer',
         },
         body: JSON.stringify({
           model: 'google/gemini-2.0-flash-001',
