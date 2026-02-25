@@ -3,7 +3,7 @@
 A decentralized voting system designed to empower communities to make transparent and verifiable decisions.
 
 ## Introduction
-VeriBallot is a Web3 platform built to handle secure, transparent, and democratic voting for organizations, schools, or any community group. Leveraging blockchain technology, VeriBallot guarantees that every vote is tamper-proof, immutable, and accurately counted, ensuring the highest level of integrity in the voting process.
+EventHorizon is a Web3 platform built to handle secure, transparent, and democratic voting for organizations, schools, or any community group. Leveraging blockchain technology, VeriBallot guarantees that every vote is tamper-proof, immutable, and accurately counted, ensuring the highest level of integrity in the voting process.
 
 ## Features
 - **Immutable Voting:** Built with smart contracts to ensure votes cannot be altered once cast.
