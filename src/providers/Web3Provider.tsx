@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { useWallet, WalletState } from '@/hooks/useWallet';
 
 interface Web3ContextValue extends WalletState {

@@ -26,7 +26,7 @@ export const Hero = () => {
                 </h1>
 
                 <p className="font-ui text-lg text-muted max-w-md leading-relaxed mb-10 font-light tracking-wide">
-                    The first <strong className="text-secondary font-semibold">decentralized proposal & voting platform</strong> for campus events — powered by Quai Network's scalable PoW blockchain.
+                    The first <strong className="text-secondary font-semibold">decentralized proposal & voting platform</strong> for campus events — powered by Quai Network&apos;s scalable PoW blockchain.
                 </p>
 
                 <div className="flex flex-wrap gap-4">

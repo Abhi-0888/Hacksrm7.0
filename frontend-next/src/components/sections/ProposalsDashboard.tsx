@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useApp } from "@/context/AppContext";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Vote, Timer, User, Check, X } from "lucide-react";
+import { Timer, User, X } from "lucide-react";
 
 export const ProposalsDashboard = () => {
     const { proposals, isLoading, voteOnProposal, txPending, contractError } = useApp();
