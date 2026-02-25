@@ -63,15 +63,18 @@ export function useWallet(): WalletState {
   const isMetaMaskInstalled = typeof window !== 'undefined' && !!(window as any).ethereum;
 
   // ── Derived network state ──
-  const isCorrectNetwork = chainId?.toLowerCase() === EXPECTED_CHAIN_HEX.toLowerCase();
+  const isCorrectNetwork = !!chainId && !!QUAI_NETWORKS[chainId.toLowerCase()];
   const networkName = chainId ? QUAI_NETWORKS[chainId.toLowerCase()]?.name || `Unknown (${chainId})` : null;
 
   // Enforce network check on every chainId update
   useEffect(() => {
-    if (chainId && chainId.toLowerCase() !== EXPECTED_CHAIN_HEX.toLowerCase()) {
-      setError(`WRONG NETWORK: Please switch your wallet to Quai Testnet (${ENV_CHAIN_ID}). Current: ${chainId}`);
-    } else if (chainId) {
-      setError(null);
+    if (chainId) {
+      const lowerChainId = chainId.toLowerCase();
+      if (!QUAI_NETWORKS[lowerChainId]) {
+        setError(`UNSUPPORTED NETWORK: Please switch your wallet to a supported Quai network. Current: ${chainId}`);
+      } else {
+        setError(null);
+      }
     }
   }, [chainId]);
 

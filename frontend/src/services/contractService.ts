@@ -15,11 +15,12 @@ export interface OnChainProposal {
 }
 
 // ── Config ──
-const CONTRACT_ADDRESS = import.meta.env.VITE_EVENT_DAO_ADDRESS || '';
+let ACTIVE_CONTRACT_ADDRESS = import.meta.env.VITE_EVENT_DAO_ADDRESS || '';
 const ABI = EventDAOJson.abi;
 
 export const EventDAOABI = ABI;
-export function getEventDAOAddress(): string { return CONTRACT_ADDRESS; }
+export function setEventDAOAddress(addr: string) { ACTIVE_CONTRACT_ADDRESS = addr; }
+export function getEventDAOAddress(): string { return ACTIVE_CONTRACT_ADDRESS; }
 
 // ── Provider via Pelagus ──
 function getBrowserProvider(): any {
@@ -31,13 +32,15 @@ function getBrowserProvider(): any {
 
 async function getReadContract(): Promise<any> {
   const provider = getBrowserProvider();
-  return new quais.Contract(CONTRACT_ADDRESS, ABI, provider);
+  if (!ACTIVE_CONTRACT_ADDRESS) throw new Error('Contract address not set for this network');
+  return new quais.Contract(ACTIVE_CONTRACT_ADDRESS, ABI, provider);
 }
 
 async function getWriteContract(): Promise<any> {
   const provider = getBrowserProvider();
   const signer = await provider.getSigner();
-  return new quais.Contract(CONTRACT_ADDRESS, ABI, signer);
+  if (!ACTIVE_CONTRACT_ADDRESS) throw new Error('Contract address not set for this network');
+  return new quais.Contract(ACTIVE_CONTRACT_ADDRESS, ABI, signer);
 }
 
 // ═══════════════════════════════════════

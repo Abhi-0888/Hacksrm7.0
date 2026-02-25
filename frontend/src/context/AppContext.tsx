@@ -70,6 +70,30 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [network, setNetwork] = useState<string>(initialNetwork);
   const [contractError, setContractError] = useState<string | null>(null);
 
+  const { chainId } = useWeb3();
+
+  // ── Sync network and contract address ──
+  useEffect(() => {
+    if (chainId) {
+      const lowerChain = chainId.toLowerCase();
+      // Map chainId to our network keys
+      const chainToKey: Record<string, string> = {
+        '0x2328': 'quai-cyprus1',
+        '0x2329': 'quai-orchard',
+        '0x3a98': 'localhost',
+      };
+
+      const networkKey = chainToKey[lowerChain];
+      if (networkKey) {
+        setNetwork(networkKey);
+        const addr = getEventDAOAddress(networkKey);
+        if (addr) {
+          contractService.setEventDAOAddress(addr);
+        }
+      }
+    }
+  }, [chainId]);
+
   // ── Switch network on wallet ──
   const switchNetwork = useCallback(async (networkKey: string) => {
     const ethereum = (window as any).ethereum || (window as any).pelagus;
