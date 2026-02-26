@@ -64,38 +64,107 @@ export const CreateProposalForm = () => {
         setAiError(null);
         setAiResult(null);
 
-        const prompt = `You are an expert event strategist, investor proposal analyst, and behavioral psychology specialist. Analyze this event proposal and complete ALL 5 tasks. Return ONLY the JSON object — no commentary outside JSON.
+        const prompt = `You are an expert event strategist, investor proposal analyst, and behavioral psychology specialist.
 
-        INPUTS:
-        Event Title: ${formData.title}
-        Organizer: ${formData.host || 'Not specified'}
-        Venue: ${formData.venue || 'Not specified'}
-        Funding Requested: ${formData.amount ? formData.amount + ' QUAI' : 'Not specified'}
-        Description: ${formData.description}
+Your task is to analyze and enhance an event proposal for a Web3 community voting and funding platform.
 
-        TASK 1 – Rewrite the description to be clear, professional, persuasive, and informative (100–180 words). Preserve original intent. Do NOT invent facts.
-        TASK 2 – Write a 1-2 sentence preview card summary.
-        TASK 3 – Score the ORIGINAL description: clarity (0–100), credibility (0–100), excitement (0–100), completeness (0–100), funding_probability (0–100).
-        TASK 4 – Analyze psychological influence on voters/funders.
-        TASK 5 – List specific weaknesses and missing information.
+════════════════════════════════════════
+INPUTS
+════════════════════════════════════════
+Event Title:      ${formData.title}
+Organizer:        ${formData.host || 'Not specified'}
+Venue:            ${formData.venue || 'Not specified'}
+Funding Requested: ${formData.amount ? formData.amount + ' QUAI' : 'Not specified'}
 
-        Return ONLY this JSON structure exactly:
-        {
-          "enhanced_description": "100-180 word rewrite",
-          "summary": "1-2 sentence summary",
-          "scores": { "clarity": 0, "credibility": 0, "excitement": 0, "completeness": 0, "funding_probability": 0 },
-          "influence_analysis": {
-            "overall_influence_score": 0,
-            "reader_perception": "",
-            "will_they_trust_it": "",
-            "will_they_feel_excited": "",
-            "will_they_understand_value": "",
-            "strengths": [],
-            "weaknesses": []
-          },
-          "improvement_suggestions": [],
-          "missing_information": []
-        }`;
+Event Description:
+${formData.description}
+
+════════════════════════════════════════
+YOUR TASKS — COMPLETE ALL IN ORDER
+════════════════════════════════════════
+
+TASK 1 — REWRITE THE DESCRIPTION
+Rewrite the event description so it is:
+  • Clear — easy for any reader to understand
+  • Professional — appropriate for an investor/voter audience
+  • Persuasive — motivates readers to vote YES or fund
+  • Informative — communicates the what, why, who, and value
+  • Concise — strictly 100 to 180 words
+  
+Rules:
+  - Do NOT invent speakers, sponsors, partners, or facts
+  - Do NOT exaggerate claims beyond what the input supports
+  - Preserve the original intent and any real details provided
+
+TASK 2 — WRITE A SHORT SUMMARY
+Write a 1–2 sentence summary of the event suitable for a preview card or feed listing.
+
+TASK 3 — SCORE THE ORIGINAL DESCRIPTION
+Score the ORIGINAL (unedited) description on each dimension from 0 to 100:
+
+  clarity_score        → How easy is it to understand?
+  credibility_score    → How trustworthy and legitimate does it feel?
+  excitement_score     → How engaging and motivating is it?
+  completeness_score   → How well does it answer what, why, who, when, where, and value?
+  funding_probability  → How likely are voters to vote YES or fund based on this description?
+
+Scoring guide:
+  90–100 = Excellent, highly fundable
+  70–89  = Strong, minor improvements needed
+  50–69  = Average, meaningful gaps present
+  Below 50 = Weak, significant revision required
+
+TASK 4 — ANALYZE PSYCHOLOGICAL INFLUENCE
+Evaluate how the ORIGINAL description will affect readers psychologically:
+  • Will they trust it? Why or why not?
+  • Will they feel excited or motivated? Why or why not?
+  • Will they clearly understand the value being offered?
+  • Provide an overall influence score (0–100) and a brief reader perception statement
+
+TASK 5 — IDENTIFY WEAKNESSES AND IMPROVEMENTS
+List specific weaknesses in the original description.
+For each weakness, provide a concrete improvement suggestion.
+Also list any missing information that, if added, would significantly improve the proposal.
+
+════════════════════════════════════════
+OUTPUT FORMAT — STRICT JSON ONLY
+Return only the JSON object below. No commentary outside the JSON.
+════════════════════════════════════════
+
+{
+  "enhanced_description": "Your rewritten description here (100–180 words)",
+  "summary": "1–2 sentence preview card summary",
+  "scores": {
+    "clarity": 0,
+    "credibility": 0,
+    "excitement": 0,
+    "completeness": 0,
+    "funding_probability": 0
+  },
+  "influence_analysis": {
+    "overall_influence_score": 0,
+    "reader_perception": "How a typical voter/funder will perceive this proposal",
+    "will_they_trust_it": "Explanation",
+    "will_they_feel_excited": "Explanation",
+    "will_they_understand_value": "Explanation",
+    "strengths": [
+      "Strength 1",
+      "Strength 2"
+    ],
+    "weaknesses": [
+      "Weakness 1",
+      "Weakness 2"
+    ]
+  },
+  "improvement_suggestions": [
+    "Specific suggestion 1",
+    "Specific suggestion 2"
+  ],
+  "missing_information": [
+    "Missing detail 1",
+    "Missing detail 2"
+  ]
+}`;
 
         try {
             // Use Next.js server route or frontend configured proxy ideally, 
