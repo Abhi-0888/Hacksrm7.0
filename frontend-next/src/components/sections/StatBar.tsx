@@ -27,7 +27,7 @@ export const StatBar = () => {
                     <div className="font-display text-4xl text-primary tracking-wider transition-transform group-hover:scale-110">
                         {stat.value}
                     </div>
-                    <div className="font-mono text-[0.6rem] text-muted tracking-widest uppercase mt-2">
+                    <div className="font-mono text-[0.8rem] text-muted tracking-widest uppercase mt-2">
                         {stat.label}
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100 origin-left" />

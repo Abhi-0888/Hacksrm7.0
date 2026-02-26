@@ -48,13 +48,13 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             <div>
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                     <span className={cn(
-                        "font-mono text-[0.58rem] px-2 py-0.5 border uppercase tracking-wider",
+                        "font-mono text-[0.75rem] px-2 py-0.5 border uppercase tracking-wider",
                         categoryStyles[proposal.category as keyof typeof categoryStyles] || "text-muted border-border"
                     )}>
                         {proposal.category}
                     </span>
                     <span className={cn(
-                        "font-mono text-[0.58rem] px-2 py-0.5 border uppercase tracking-wider",
+                        "font-mono text-[0.75rem] px-2 py-0.5 border uppercase tracking-wider",
                         statusColors[proposal.status]
                     )}>
                         {proposal.status === 'live' && '● '}
@@ -65,11 +65,11 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                 <h3 className="font-ui text-xl font-bold text-foreground tracking-wide mb-2">
                     {proposal.title}
                 </h3>
-                <p className="font-ui text-[0.85rem] text-muted font-light leading-relaxed mb-6 line-clamp-2">
+                <p className="font-ui text-[1rem] text-muted font-light leading-relaxed mb-6 line-clamp-2">
                     {proposal.description}
                 </p>
 
-                <div className="flex flex-wrap items-center gap-6 font-mono text-[0.6rem] text-muted tracking-widest uppercase">
+                <div className="flex flex-wrap items-center gap-6 font-mono text-[0.8rem] text-muted tracking-widest uppercase">
                     <div className="flex items-center gap-2">
                         <span className="text-secondary opacity-60">ID #</span>
                         {proposal.id}
@@ -85,7 +85,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                 <div className="w-full space-y-3">
                     {proposal.votes.map((vote, i) => (
                         <div key={i} className="w-full">
-                            <div className="flex justify-between font-mono text-[0.58rem] text-muted mb-1 uppercase">
+                            <div className="flex justify-between font-mono text-[0.8rem] text-muted mb-1 uppercase">
                                 <span>{vote.option}</span>
                                 <span className="text-primary">{vote.percentage}%</span>
                             </div>
@@ -106,21 +106,21 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                     <div className="flex gap-2 w-full lg:w-auto">
                         <Link
                             href={`/proposals/${proposal.id}`}
-                            className="flex-1 lg:w-auto font-mono text-[0.65rem] px-4 py-2 bg-panel border border-primary/20 text-muted hover:text-primary transition-all uppercase tracking-widest flex items-center justify-center"
+                            className="flex-1 lg:w-auto font-mono text-[0.85rem] px-4 py-2 bg-panel border border-primary/20 text-muted hover:text-primary transition-all uppercase tracking-widest flex items-center justify-center"
                         >
                             View Details
                         </Link>
                         <button
                             onClick={() => handleVote(true)}
                             disabled={txPending}
-                            className="flex-1 lg:w-auto font-mono text-[0.65rem] px-4 py-2 bg-transparent border border-primary text-primary hover:bg-primary hover:text-background transition-all uppercase tracking-widest disabled:opacity-50"
+                            className="flex-1 lg:w-auto font-mono text-[0.85rem] px-4 py-2 bg-transparent border border-primary text-primary hover:bg-primary hover:text-background transition-all uppercase tracking-widest disabled:opacity-50"
                         >
                             Support
                         </button>
                         <button
                             onClick={() => handleVote(false)}
                             disabled={txPending}
-                            className="flex-1 lg:w-auto font-mono text-[0.65rem] px-4 py-2 bg-transparent border border-danger text-danger hover:bg-danger hover:text-background transition-all uppercase tracking-widest disabled:opacity-50"
+                            className="flex-1 lg:w-auto font-mono text-[0.85rem] px-4 py-2 bg-transparent border border-danger text-danger hover:bg-danger hover:text-background transition-all uppercase tracking-widest disabled:opacity-50"
                         >
                             Against
                         </button>
@@ -129,13 +129,13 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                 {proposal.status !== "live" && (
                     <Link
                         href={`/proposals/${proposal.id}`}
-                        className="w-full lg:w-auto font-mono text-[0.65rem] px-6 py-2 bg-panel border border-primary/20 text-muted hover:text-primary transition-all uppercase tracking-widest flex items-center justify-center text-center"
+                        className="w-full lg:w-auto font-mono text-[0.85rem] px-6 py-2 bg-panel border border-primary/20 text-muted hover:text-primary transition-all uppercase tracking-widest flex items-center justify-center text-center"
                     >
                         View Details & Results
                     </Link>
                 )}
                 {proposal.status === "passed" && (
-                    <div className="font-mono text-[0.6rem] text-accent uppercase tracking-widest border border-accent/20 px-3 py-1 bg-accent/5">
+                    <div className="font-mono text-[0.8rem] text-accent uppercase tracking-widest border border-accent/20 px-3 py-1 bg-accent/5">
                         Consensus Reached
                     </div>
                 )}

@@ -13,7 +13,7 @@ export const Hero = () => {
             </div>
 
             <div className="relative z-10">
-                <div className="flex items-center gap-3 font-mono text-[0.68rem] text-primary tracking-[0.22em] uppercase mb-6">
+                <div className="flex items-center gap-3 font-mono text-[0.85rem] text-primary tracking-[0.22em] uppercase mb-6">
                     <span className="w-7 h-[1px] bg-primary" />
                     Quai Network · EVM Compatible · Proof-of-Work
                     <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -33,7 +33,7 @@ export const Hero = () => {
                     <button className="btn-accent">
                         Browse Proposals
                     </button>
-                    <button className="inline-flex items-center gap-2 px-8 py-3 font-mono text-[0.75rem] tracking-widest uppercase border border-secondary/30 text-secondary hover:bg-secondary/5 transition-colors">
+                    <button className="inline-flex items-center gap-2 px-8 py-3 font-mono text-[0.95rem] tracking-widest uppercase border border-secondary/30 text-secondary hover:bg-secondary/5 transition-colors">
                         + Create Proposal
                     </button>
                 </div>
