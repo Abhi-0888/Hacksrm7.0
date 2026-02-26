@@ -182,7 +182,7 @@ Return only the JSON object below. No commentary outside the JSON.
                     'X-Title': 'Event Horizon Proposal Intelligence',
                 },
                 body: JSON.stringify({
-                    model: 'google/gemini-2.0-flash-exp:free', // Fallback to a wider free tier
+                    model: 'google/gemini-2.0-flash-lite-preview-02-05:free', // Enforcing a strictly free OpenRouter model
                     messages: [{ role: 'user', content: prompt }],
                     temperature: 0.4,
                     // response_format: { type: 'json_object' } removed to prevent 400 Bad Request
