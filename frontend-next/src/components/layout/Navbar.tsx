@@ -98,13 +98,23 @@ export const Navbar = () => {
 
                 {/* Wallet Connect */}
                 <button
-                    onClick={isConnected ? disconnect : connect}
+                    onClick={() => {
+                        if (!session && !isConnected) {
+                            alert("Please Sign In with Google before connecting your wallet.");
+                            return;
+                        }
+                        isConnected ? disconnect() : connect();
+                    }}
                     className={cn(
                         "font-mono text-[0.9rem] px-5 py-2 uppercase tracking-widest transition-all",
-                        isConnected
-                            ? "bg-primary text-background border border-primary"
-                            : "border border-primary text-primary hover:bg-primary hover:text-background"
+                        (!session && !isConnected)
+                            ? "bg-bg2 text-muted border border-border cursor-not-allowed opacity-50"
+                            : isConnected
+                                ? "bg-primary text-background border border-primary"
+                                : "border border-primary text-primary hover:bg-primary hover:text-background"
                     )}
+                    disabled={!session && !isConnected}
+                    title={(!session && !isConnected) ? "Google Sign-In Required" : ""}
                 >
                     {isConnected ? (
                         <span className="flex items-center gap-2">
