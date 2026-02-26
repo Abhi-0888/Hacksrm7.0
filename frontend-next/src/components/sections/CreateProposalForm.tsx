@@ -100,7 +100,7 @@ export const CreateProposalForm = () => {
         try {
             // Use Next.js server route or frontend configured proxy ideally, 
             // but keeping original logic for direct OpenRouter call.
-            const apiKey = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY || "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";
+            const apiKey = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY;
 
             if (!apiKey) throw new Error("AI API Key not configured.");
 
