@@ -39,7 +39,7 @@ export const Navbar = () => {
                         <Link
                             href={link.href}
                             className={cn(
-                                "font-mono text-[0.7rem] uppercase tracking-widest transition-colors before:content-['/_']",
+                                "font-mono text-[0.9rem] uppercase tracking-widest transition-colors before:content-['/_']",
                                 pathname === link.href ? "text-primary" : "text-muted hover:text-primary"
                             )}
                         >
@@ -50,7 +50,7 @@ export const Navbar = () => {
             </ul>
 
             <div className="flex items-center gap-4">
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 border border-primary/20 bg-primary/5 font-mono text-[0.6rem] tracking-wider text-primary">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 border border-primary/20 bg-primary/5 font-mono text-[0.8rem] tracking-wider text-primary">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-fast" />
                     QUAI MAINNET
                 </div>
@@ -58,7 +58,7 @@ export const Navbar = () => {
                 <button
                     onClick={isConnected ? disconnect : connect}
                     className={cn(
-                        "font-mono text-[0.7rem] px-5 py-2 uppercase tracking-widest transition-all",
+                        "font-mono text-[0.9rem] px-5 py-2 uppercase tracking-widest transition-all",
                         isConnected
                             ? "bg-primary text-background border border-primary"
                             : "border border-primary text-primary hover:bg-primary hover:text-background"
