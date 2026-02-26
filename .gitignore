@@ -3,6 +3,8 @@ node_modules/
 
 # Environment variables (private keys, API keys)
 .env
+.env.local
+.env.*.local
 
 # Build output
 dist/
