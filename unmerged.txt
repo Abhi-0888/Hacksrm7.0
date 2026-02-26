@@ -1,0 +1,9 @@
+﻿frontend-next/next.config.mjs
+frontend-next/package-lock.json
+frontend-next/package.json
+frontend-next/src/components/layout/Navbar.tsx
+frontend-next/src/components/sections/CreateProposalForm.tsx
+frontend-next/src/providers/index.tsx
+frontend-next/src/styles/globals.css
+frontend/src/components/ProposalCard.tsx
+frontend/src/pages/CreateProposal.tsx

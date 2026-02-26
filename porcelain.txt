@@ -1,0 +1,14 @@
+﻿A  .env.local
+AA frontend-next/next.config.mjs
+AA frontend-next/package-lock.json
+AA frontend-next/package.json
+AA frontend-next/src/components/layout/Navbar.tsx
+AA frontend-next/src/components/sections/CreateProposalForm.tsx
+AA frontend-next/src/providers/index.tsx
+AA frontend-next/src/styles/globals.css
+UD frontend/src/components/ProposalCard.tsx
+UD frontend/src/pages/CreateProposal.tsx
+ D frontend/src/pages/EventDescriptionPage.tsx
+?? porcelain.txt
+?? status.txt
+?? unmerged.txt
